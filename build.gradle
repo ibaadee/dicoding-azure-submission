@@ -3,6 +3,7 @@ plugins {
 	id 'java'
 	id 'eclipse'
 	id 'war'
+	id 'lenala.azure.azurewebapp' version '1.0'
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -10,6 +11,7 @@ apply plugin: 'io.spring.dependency-management'
 group = 'id.web.dragonbee'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
@@ -32,4 +34,23 @@ dependencies {
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
+	providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+}
+
+azureWebApp {
+    resourceGroup = 'ibad'
+    appName = 'ibad2'
+    pricingTier = 'B1'
+    region = 'Southeast Asia'
+    appService = {
+        type = 'windows'
+        javaWebContainer = 'tomcat 8.5'
+        javaVersion = '1.8'
+    }
+    authentication = {
+        type = 'azurecli'
+    }
+    deployment = {
+        type = 'war'
+    }
 }
